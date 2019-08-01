@@ -34,9 +34,9 @@ public class ClientHandler implements Runnable {
                 ServerSceleton.journal.add(command.getArgs());
                 break;
             case SHOW_HISTORY:
-                sendMessage(ServerSceleton.journal.toString());
+                sendMessage(ServerSceleton.journalToString());
             case UNKNOWN_COMMAND:
-                System.out.println(command.getArgs());
+                sendMessage(command.getArgs());
                 break;
         }
     }
