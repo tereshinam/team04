@@ -1,16 +1,18 @@
 package db.java.education.chat.server;
 
+import db.java.education.chat.protocol.Command;
+
 import java.io.*;
 import java.net.Socket;
 
 public class ClientHandler implements Runnable {
     private Socket client;
-    private BufferedReader in;
+    private ObjectInputStream in;
     private BufferedWriter out;
 
     public ClientHandler(Socket client) throws IOException {
         this.client = client;
-        in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+        in = new ObjectInputStream(client.getInputStream());
         out = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
     }
 
@@ -18,12 +20,20 @@ public class ClientHandler implements Runnable {
     public void run() {
         try {
             while (true) {
-                String message = in.readLine();
-                Command currentCommand = Protocol.getParseCommand(message);
-                handleCommand(currentCommand);
+                Command message = (Command)in.readObject();
+                System.out.println("accept message :"+message.getArgs());
+                handleCommand(message);
             }
         } catch (IOException ex) {
+            try {
+                out.close();
+                in.close();
+            }catch (IOException e){
+                e.printStackTrace();;
+            }
             ex.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 

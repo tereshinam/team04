@@ -1,22 +1,25 @@
 package db.java.education.chat.client;
 
+import db.java.education.chat.protocol.Command;
+import db.java.education.chat.protocol.Protocol;
+import db.java.education.chat.server.CommandType;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Date;
 
 public class ClientWriter {
     Socket client;
+    private CommandType type;
+    private String args;
 
     public ClientWriter(Socket client) throws IOException {
         this.client = client;
     }
 
     public void comeOnWriting() throws IOException {
-        try (final BufferedWriter out =
-                     new BufferedWriter(
-                             new OutputStreamWriter(
-                                     new BufferedOutputStream(
-                                             client.getOutputStream())))) {
+        final ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
+        {
 
             try (BufferedReader console =
                          new BufferedReader(
@@ -26,22 +29,18 @@ public class ClientWriter {
 
                 while (true) {
                     String putLine = console.readLine();
-
                     switch (putLine.contains(" ") ? putLine.substring(0, putLine.indexOf(" ")) : putLine) {
                         case "/snd":
-                            out.write("/snd " + new Date().toString() + putLine.replace("/snd", " "));
-                            out.newLine();
-                            out.flush();
+                            out.writeObject(Protocol.getParseCommand(
+                                    "/snd " + new Date().toString()
+                                            + putLine.replace("/snd", " ")));
                             break;
                         default:
-                            out.write(putLine);
-                            out.newLine();
-                            out.flush();
+                            out.writeObject(Protocol.getParseCommand(putLine));
                             break;
                     }
 
                 }
-
 
                 //endregion
             } catch (IOException e) {
