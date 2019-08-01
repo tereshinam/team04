@@ -13,7 +13,7 @@ public class ClientSender {
 
             ClientWriter writer = new ClientWriter(server);
             writer.comeOnWriting();
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }

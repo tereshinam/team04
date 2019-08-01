@@ -1,6 +1,5 @@
 package db.java.education.chat.server;
 
-import javax.sql.rowset.spi.SyncProvider;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -12,7 +11,7 @@ public class ServerSceleton {
     public static List<String> journal = new ArrayList<>();
 
     public static void main(String[] args) {
-        try(ServerSocket serverSocket = new ServerSocket(8080)){
+        try(ServerSocket serverSocket = new ServerSocket(666)){
             while(true){
                 Socket client = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(client);
@@ -32,4 +31,6 @@ public class ServerSceleton {
         }
         return history.substring(0,history.length()-2);
     }
+
+    private ServerSceleton(){}
 }

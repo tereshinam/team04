@@ -16,7 +16,7 @@ public class ClientReader {
                          new BufferedReader(
                                  new InputStreamReader(
                                          new BufferedInputStream(
-                                                 server.getInputStream(), 100)))) {
+                                                 server.getInputStream(), 340)))) {
 
                 while (!Thread.interrupted()) {
                     System.out.println(in.readLine());
