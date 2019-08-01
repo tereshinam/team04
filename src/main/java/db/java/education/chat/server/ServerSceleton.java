@@ -17,8 +17,8 @@ public class ServerSceleton {
             while(true){
                 client = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(client);
-                clientList.add(clientHandler);
                 new Thread(clientHandler).start();
+                clientList.add(clientHandler);
             }
         }catch (IOException e){
             if(client!=null)
