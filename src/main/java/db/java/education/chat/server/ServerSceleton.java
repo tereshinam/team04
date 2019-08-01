@@ -12,7 +12,7 @@ public class ServerSceleton {
     public static List<String> journal = new ArrayList<>();
 
     public static void main(String[] args) {
-        try(ServerSocket serverSocket = new ServerSocket(666)){
+        try(ServerSocket serverSocket = new ServerSocket(8080)){
             while(true){
                 Socket client = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(client);
@@ -30,6 +30,6 @@ public class ServerSceleton {
             history.append(s);
             history.append(System.lineSeparator());
         }
-        return history.toString();
+        return history.substring(0,history.length()-2);
     }
 }
