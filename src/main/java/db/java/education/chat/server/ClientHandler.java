@@ -4,13 +4,17 @@ import db.java.education.chat.protocol.Command;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ClientHandler implements Runnable {
     private Socket client;
     private ObjectInputStream in;
     private BufferedWriter out;
+    private Logger logger = Logger.getLogger("Client thread");
 
     public ClientHandler(Socket client) throws IOException {
+        logger.log(Level.INFO,"new client");
         this.client = client;
         in = new ObjectInputStream(client.getInputStream());
         out = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
@@ -21,7 +25,7 @@ public class ClientHandler implements Runnable {
         try {
             while (true) {
                 Command message = (Command)in.readObject();
-                System.out.println("accept message :"+message.getArgs());
+                logger.log(Level.INFO,"accept message :"+message.getType().name());
                 handleCommand(message);
             }
         } catch (IOException ex) {
@@ -29,9 +33,9 @@ public class ClientHandler implements Runnable {
                 out.close();
                 in.close();
             }catch (IOException e){
-                e.printStackTrace();;
+                logger.log(Level.WARNING,"client out");
             }
-            ex.printStackTrace();
+            logger.log(Level.WARNING,"client out");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

@@ -33,7 +33,7 @@ public class ClientWriter {
                         case "/snd":
                             out.writeObject(Protocol.getParseCommand(
                                     "/snd " + new Date().toString()
-                                            + putLine.replace("/snd", " ")));
+                                            + putLine.replaceFirst("/snd", " ")));
                             break;
                         default:
                             out.writeObject(Protocol.getParseCommand(putLine));

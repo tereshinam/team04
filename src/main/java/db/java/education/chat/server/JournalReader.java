@@ -4,8 +4,6 @@ import java.io.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static db.java.education.chat.server.Utils.journalToString;
-
 public class JournalReader {
     private String fileName;
 

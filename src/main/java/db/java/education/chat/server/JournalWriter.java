@@ -1,7 +1,6 @@
 package db.java.education.chat.server;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 import static db.java.education.chat.server.Utils.journalToString;
@@ -19,7 +18,7 @@ public class JournalWriter {
                         new OutputStreamWriter(
                                 new BufferedOutputStream(
                                         new FileOutputStream(
-                                                new File(fileName), true))))) {
+                                                new File(fileName)))))) {
             if (journal.size() > 0) {
                 fileOut.write(journalToString(journal));
             }
