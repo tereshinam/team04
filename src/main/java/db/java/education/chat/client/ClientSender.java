@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class ClientSender {
     public static void main(String[] args) {
-        try (final Socket server = new Socket("localhost", 666)) {
+        try (final Socket server = new Socket("localhost", 8080)) {
 
             //region read
             Thread thread = new Thread(() -> {

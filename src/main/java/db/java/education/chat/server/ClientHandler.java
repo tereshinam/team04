@@ -3,8 +3,6 @@ package db.java.education.chat.server;
 import java.io.*;
 import java.net.Socket;
 
-import static db.java.education.chat.server.CommandType.SEND_MESSAGE;
-
 public class ClientHandler implements Runnable {
     private Socket client;
     private BufferedReader in;
@@ -18,21 +16,44 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-        try{
-            while(true){
+        try {
+            while (true) {
                 String message = in.readLine();
                 Command currentCommand = Protocol.getParseCommand(message);
                 handleCommand(currentCommand);
             }
-        }catch (IOException ex){
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
 
-    private void handleCommand(Command command){
-        switch (command.getType()){
+    private void handleCommand(Command command) {
+        switch (command.getType()) {
             case SEND_MESSAGE:
+                sendMessageAllClient(command.getArgs());
+                ServerSceleton.journal.add(command.getArgs());
+                break;
+            case SHOW_HISTORY:
+                sendMessage(ServerSceleton.journal.toString());
+            case UNKNOWN_COMMAND:
                 System.out.println(command.getArgs());
+                break;
+        }
+    }
+
+    public void sendMessageAllClient(String message) {
+        for (ClientHandler client : ServerSceleton.clientList) {
+            client.sendMessage(message);
+        }
+    }
+
+    private void sendMessage(String message) {
+        try {
+            out.write(message);
+            out.newLine();
+            out.flush();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 }

@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServerSceleton {
-    private static List<ClientHandler> clientList = new ArrayList<>();
+    public static List<ClientHandler> clientList = new ArrayList<>();
+    public static List<String> journal = new ArrayList<>();
 
     public static void main(String[] args) {
         try(ServerSocket serverSocket = new ServerSocket(8080)){
