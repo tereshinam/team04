@@ -13,7 +13,7 @@ public class ServerSceleton {
 
     public static void main(String[] args) {
         Socket client = null;
-        try(ServerSocket serverSocket = new ServerSocket(8080)){
+        try(ServerSocket serverSocket = new ServerSocket(666)){
             while(true){
                 client = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(client);

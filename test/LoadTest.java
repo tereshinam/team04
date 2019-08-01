@@ -1,30 +1,20 @@
-package db.java.education.chat.client;
-
+import db.java.education.chat.client.ClientReader;
+import db.java.education.chat.client.ClientWriter;
 import db.java.education.chat.protocol.Protocol;
+import org.junit.Test;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.Date;
 
-public class ClientWriter {
-    Socket client;
-
-    public ClientWriter(Socket client) {
-        this.client = client;
-    }
-
-    public void comeOnWriting() throws IOException {
-        final ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
-        {
-
-            try (BufferedReader console =
-                         new BufferedReader(
-                                 new InputStreamReader(
-                                         new BufferedInputStream(
-                                                 System.in, 184)))) {
-
+public class LoadTest {
+    @Test
+    public void shouldSystemNotDieInHighLoad() throws IOException {
+        try (final Socket server = new Socket("localhost", 666)) {
+            final ObjectOutputStream out = new ObjectOutputStream(server.getOutputStream());
+            {
                 while (true) {
-                    String putLine = console.readLine();
+                    String putLine = "/snd iam";
                     switch (putLine.contains(" ") ? putLine.substring(0, putLine.indexOf(" ")) : putLine) {
                         case "/snd":
                             out.writeObject(Protocol.getParseCommand(
@@ -38,9 +28,8 @@ public class ClientWriter {
 
                 }
 
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }
+
 }
