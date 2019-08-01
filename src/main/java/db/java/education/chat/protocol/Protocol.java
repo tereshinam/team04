@@ -16,7 +16,7 @@ public class Protocol {
                 break;
             case "/hist":
                 type = CommandType.SHOW_HISTORY;
-                args = " ";
+                args = "showing history";
                 break;
             default:
                 type = CommandType.UNKNOWN_COMMAND;
