@@ -19,6 +19,7 @@ public class ClientHandler implements Runnable {
         try {
             while (true) {
                 String message = in.readLine();
+                System.out.println("accept message :"+message);
                 Command currentCommand = Protocol.getParseCommand(message);
                 handleCommand(currentCommand);
             }

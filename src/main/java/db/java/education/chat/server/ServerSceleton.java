@@ -12,14 +12,17 @@ public class ServerSceleton {
     public static List<String> journal = new ArrayList<>();
 
     public static void main(String[] args) {
+        Socket client = null;
         try(ServerSocket serverSocket = new ServerSocket(8080)){
             while(true){
-                Socket client = serverSocket.accept();
+                client = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(client);
                 clientList.add(clientHandler);
                 new Thread(clientHandler).start();
             }
         }catch (IOException e){
+            if(client!=null)
+                clientList.remove(client);
             e.printStackTrace();
         }
     }
