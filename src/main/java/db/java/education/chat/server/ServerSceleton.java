@@ -1,6 +1,7 @@
 package db.java.education.chat.server;
 
 import jdk.nashorn.internal.ir.RuntimeNode;
+import sun.rmi.runtime.Log;
 
 import javax.sql.rowset.spi.SyncProvider;
 import java.io.*;
@@ -8,11 +9,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ServerSceleton {
     public static List<ClientHandler> clientList = new ArrayList<>();
     public static List<String> journal = new ArrayList<>(1000);
     private static volatile boolean serverIsWork = true;
+    public static Logger logger = Logger.getLogger("Server");
 
     public static void main(String[] args) throws IOException {
         Socket client = null;
