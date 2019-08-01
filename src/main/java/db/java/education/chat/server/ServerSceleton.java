@@ -10,7 +10,7 @@ public class ServerSceleton {
     private static List<ClientHandler> clientList = new ArrayList<>();
 
     public static void main(String[] args) {
-        try(ServerSocket serverSocket = new ServerSocket(8080)){
+        try(ServerSocket serverSocket = new ServerSocket(666)){
             while(true){
                 Socket client = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(client);
