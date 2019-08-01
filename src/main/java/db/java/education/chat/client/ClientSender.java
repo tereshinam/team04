@@ -45,7 +45,7 @@ public class ClientSender {
                     while (true) {
                         String putLine = console.readLine();
 
-                        switch (putLine.substring(0, putLine.indexOf(" "))) {
+                        switch (putLine.contains(" ")? putLine.substring(0,  putLine.indexOf(" ")): putLine) {
                             case "/snd":
                                 out.write("/snd " + new Date().toString() + putLine.replace("/snd", " "));
                                 out.newLine();
@@ -53,6 +53,8 @@ public class ClientSender {
                                 break;
                             default:
                                 out.write(putLine);
+                                out.newLine();
+                                out.flush();
                                 break;
                         }
 
