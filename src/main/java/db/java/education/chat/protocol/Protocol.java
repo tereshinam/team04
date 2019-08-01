@@ -1,8 +1,5 @@
 package db.java.education.chat.protocol;
 
-import db.java.education.chat.protocol.Command;
-import db.java.education.chat.server.CommandType;
-
 public class Protocol {
     private static String delimetr = " ";
 

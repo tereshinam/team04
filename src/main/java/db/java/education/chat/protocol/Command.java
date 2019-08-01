@@ -1,7 +1,5 @@
 package db.java.education.chat.protocol;
 
-import db.java.education.chat.server.CommandType;
-
 import java.io.Serializable;
 
 public class Command implements Serializable {

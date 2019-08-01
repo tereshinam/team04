@@ -1,4 +1,4 @@
-package db.java.education.chat.server;
+package db.java.education.chat.protocol;
 
 public enum CommandType {
     SEND_MESSAGE,

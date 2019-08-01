@@ -2,7 +2,7 @@ package db.java.education.chat.client;
 
 import db.java.education.chat.protocol.Command;
 import db.java.education.chat.protocol.Protocol;
-import db.java.education.chat.server.CommandType;
+import db.java.education.chat.protocol.CommandType;
 
 import java.io.*;
 import java.net.Socket;
