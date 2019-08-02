@@ -1,18 +1,23 @@
 package db.java.education.chat.server;
 
 import db.java.education.chat.protocol.Command;
+import db.java.education.chat.protocol.Protocol;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ClientHandler implements Runnable {
     private Socket client;
-    private ObjectInputStream in;
+    private BufferedReader in;
     private BufferedWriter out;
+    private Logger logger = Logger.getLogger("Client thread");
 
     public ClientHandler(Socket client) throws IOException {
+        logger.log(Level.INFO,"new client");
         this.client = client;
-        in = new ObjectInputStream(client.getInputStream());
+        in = new BufferedReader(new InputStreamReader(client.getInputStream()));
         out = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
     }
 
@@ -20,20 +25,25 @@ public class ClientHandler implements Runnable {
     public void run() {
         try {
             while (true) {
-                Command message = (Command)in.readObject();
-                System.out.println("accept message :"+message.getArgs());
-                handleCommand(message);
+                String message = in.readLine();
+                logger.log(Level.INFO,"accept message :"+message);
+                Command currentCommand = Protocol.getParseCommand(message);
+                handleCommand(currentCommand);
             }
         } catch (IOException ex) {
+            logger.log(Level.WARNING,"client out");
+            ServerSceleton.clientList.remove(this);
+        } finally {
             try {
                 out.close();
+            }catch (IOException e){
+                logger.log(Level.WARNING,"can't close data output stream");
+            }
+            try {
                 in.close();
             }catch (IOException e){
-                e.printStackTrace();;
+                logger.log(Level.WARNING,"can't close data input stream");
             }
-            ex.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 

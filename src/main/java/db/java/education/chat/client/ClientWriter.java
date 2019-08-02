@@ -14,7 +14,7 @@ public class ClientWriter {
     }
 
     public void comeOnWriting() throws IOException {
-        final ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
         {
 
             try (BufferedReader console =
@@ -26,13 +26,16 @@ public class ClientWriter {
                 while (true) {
                     String putLine = console.readLine();
                     switch (putLine.contains(" ") ? putLine.substring(0, putLine.indexOf(" ")) : putLine) {
-                        case "/snd":
-                            out.writeObject(Protocol.getParseCommand(
-                                    "/snd " + new Date().toString()
-                                            + putLine.replace("/snd", " ")));
+                        case Protocol.SEND_MESSAGE:
+                            out.write(Protocol.SEND_MESSAGE+" " + new Date().toString()
+                                            + putLine.replaceFirst(Protocol.SEND_MESSAGE, " "));
+                            out.newLine();
+                            out.flush();
                             break;
                         default:
-                            out.writeObject(Protocol.getParseCommand(putLine));
+                            out.write(putLine);
+                            out.newLine();
+                            out.flush();
                             break;
                     }
 

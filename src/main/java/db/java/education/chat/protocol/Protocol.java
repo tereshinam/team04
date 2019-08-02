@@ -1,26 +1,28 @@
 package db.java.education.chat.protocol;
 
 public class Protocol {
-    private static String delimetr = " ";
+    public final static String DELIMETR= " ";
+    public final static String SEND_MESSAGE= "/snd";
+    public final static String SHOW_HISTORY= "/hist";
+    public final static String UNKNOWN_COMMAND= "unknown command";
 
     public static Command getParseCommand(String message){
-        //TODO:limit of split
-        String[] strMas = message.split(delimetr,2);
+        String[] strMas = message.split(DELIMETR,2);
 
         CommandType type;
         String args ;
         switch (strMas[0]) {
-            case "/snd":
+            case SEND_MESSAGE:
                 type = CommandType.SEND_MESSAGE;
                 args = strMas[1];
                 break;
-            case "/hist":
+            case SHOW_HISTORY:
                 type = CommandType.SHOW_HISTORY;
                 args = "showing history";
                 break;
             default:
                 type = CommandType.UNKNOWN_COMMAND;
-                args = "unknown command";
+                args = UNKNOWN_COMMAND;
         }
         return new Command(type,args);
     }
