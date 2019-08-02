@@ -11,6 +11,7 @@ public class ClientSender {
 
     /**
      * Creates writer in existing thread and reader that will use separated thread
+     *
      * @param args
      */
     public static void main(String[] args) {

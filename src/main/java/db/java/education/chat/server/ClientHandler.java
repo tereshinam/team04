@@ -15,7 +15,7 @@ public class ClientHandler implements Runnable {
     private Logger logger = Logger.getLogger("Client thread");
 
     public ClientHandler(Socket client) throws IOException {
-        logger.log(Level.INFO,"new client");
+        logger.log(Level.INFO, "new client");
         this.client = client;
     }
 
@@ -26,25 +26,25 @@ public class ClientHandler implements Runnable {
             out = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
             while (true) {
                 String message = in.readLine();
-                logger.log(Level.INFO,"accept message :"+message);
+                logger.log(Level.INFO, "accept message :" + message);
                 Command currentCommand = Protocol.getParseCommand(message);
                 handleCommand(currentCommand);
             }
         } catch (IOException ex) {
-            logger.log(Level.WARNING,"client out");
+            logger.log(Level.WARNING, "client out");
             ServerSceleton.clientCollectionLock.writeLock().lock();
             ServerSceleton.clientList.remove(this);
             ServerSceleton.clientCollectionLock.writeLock().unlock();
         } finally {
             try {
                 out.close();
-            }catch (IOException e){
-                logger.log(Level.WARNING,"can't close data output stream");
+            } catch (IOException e) {
+                logger.log(Level.WARNING, "can't close data output stream");
             }
             try {
                 in.close();
-            }catch (IOException e){
-                logger.log(Level.WARNING,"can't close data input stream");
+            } catch (IOException e) {
+                logger.log(Level.WARNING, "can't close data input stream");
             }
         }
     }

@@ -12,7 +12,7 @@ public class JournalWriter {
         this.fileName = fileName;
     }
 
-    public void writeJournal(List<String> journal){
+    public void writeJournal(List<String> journal) {
         try (
                 BufferedWriter fileOut = new BufferedWriter(
                         new OutputStreamWriter(

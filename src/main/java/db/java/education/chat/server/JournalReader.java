@@ -11,7 +11,7 @@ public class JournalReader {
         this.fileName = fileName;
     }
 
-    public void readJournal(List<String> journal){
+    public void readJournal(List<String> journal) {
         try (
                 BufferedReader fileIn = new BufferedReader(
                         new InputStreamReader(
