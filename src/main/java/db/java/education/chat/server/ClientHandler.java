@@ -32,6 +32,7 @@ public class ClientHandler implements Runnable {
             }
         } catch (IOException ex) {
             logger.log(Level.WARNING,"client out");
+            ServerSceleton.clientList.remove(this);
         } finally {
             try {
                 out.close();
