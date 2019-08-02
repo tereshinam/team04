@@ -4,20 +4,32 @@ import db.java.education.chat.protocol.Protocol;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.assertThat;
 
 public class ProtocolTest {
+    Command sut;
+
     @Test
-    public void shouldStringParseCorrectly()
+    public void shouldSndStringParseCorrectly()
     {
-        Command sut1 = Protocol.getParseCommand("/snd vodka");
-        Command sut2 = Protocol.getParseCommand("/hist");
-        Command sut3 = Protocol.getParseCommand("sfagjafdjhg");
-        Assert.assertEquals(CommandType.SEND_MESSAGE, sut1.getType());
-        Assert.assertEquals("vodka", sut1.getArgs());
-        Assert.assertEquals(CommandType.SHOW_HISTORY, sut2.getType());
-        Assert.assertEquals(" ", sut2.getArgs());
-        Assert.assertEquals(CommandType.UNKNOWN_COMMAND, sut3.getType());
-        Assert.assertEquals("unknown command", sut3.getArgs());
+        sut = Protocol.getParseCommand("/snd vodka");
+        Assert.assertEquals(CommandType.SEND_MESSAGE, sut.getType());
+        Assert.assertEquals("vodka", sut.getArgs());
     }
+
+    @Test
+    public void shouldHistStringParseCorrectly()
+    {
+        sut = Protocol.getParseCommand("/hist");
+        Assert.assertEquals(CommandType.SHOW_HISTORY, sut.getType());
+        Assert.assertEquals("showing history", sut.getArgs());
+    }
+
+    @Test
+    public void shouldNoCommandStringParseCorrectly()
+    {
+        sut = Protocol.getParseCommand("sfagjafdjhg");
+        Assert.assertEquals(CommandType.UNKNOWN_COMMAND, sut.getType());
+        Assert.assertEquals("unknown command", sut.getArgs());
+    }
+
 }

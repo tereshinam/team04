@@ -2,13 +2,19 @@ package db.java.education.chat.client;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.Date;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ClientSender {
+    static Logger logger;
+    static int port = 8080;
+
+    /**
+     * Creates writer in existing thread and reader that will use separated thread
+     * @param args
+     */
     public static void main(String[] args) {
-        try (final Socket server = new Socket("localhost", 8080)) {
+        try (final Socket server = new Socket("localhost", port)) {
             ClientReader reader = new ClientReader(server);
             reader.comeOn();
 
@@ -16,7 +22,8 @@ public class ClientSender {
             writer.comeOnWriting();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.INFO, "Client failed to connect to server on port" + port);
+            System.out.println("Failed to connect to server!");
         }
     }
 }

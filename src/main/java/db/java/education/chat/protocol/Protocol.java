@@ -6,6 +6,11 @@ public class Protocol {
     public final static String SHOW_HISTORY= "/hist";
     public final static String UNKNOWN_COMMAND= "unknown command";
 
+    /**
+     * Parses string into command according to first substring (command)
+     * @param message
+     * @return parsed Command
+     */
     public static Command getParseCommand(String message){
         String[] strMas = message.split(DELIMETR,2);
 

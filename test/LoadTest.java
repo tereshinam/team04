@@ -1,5 +1,3 @@
-import db.java.education.chat.client.ClientReader;
-import db.java.education.chat.client.ClientWriter;
 import db.java.education.chat.protocol.Protocol;
 import org.junit.Test;
 

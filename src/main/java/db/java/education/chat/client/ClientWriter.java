@@ -5,45 +5,53 @@ import db.java.education.chat.protocol.Protocol;
 import java.io.*;
 import java.net.Socket;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ClientWriter {
     Socket client;
+    Logger logger;
 
     public ClientWriter(Socket client) {
         this.client = client;
     }
 
-    public void comeOnWriting() throws IOException {
-        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
-        {
+    /**
+     * Method creates out stream that sends strings to server
+     * and console stream that reads strings from console
+     */
+    public void comeOnWriting() {
 
-            try (BufferedReader console =
-                         new BufferedReader(
-                                 new InputStreamReader(
-                                         new BufferedInputStream(
-                                                 System.in, 184)))) {
+        try (BufferedWriter out = new BufferedWriter
+                (new OutputStreamWriter(client.getOutputStream()));
+             BufferedReader console =
+                     new BufferedReader(
+                             new InputStreamReader(
+                                     new BufferedInputStream(
+                                             System.in, 300)))) {
 
-                while (true) {
-                    String putLine = console.readLine();
-                    switch (putLine.contains(" ") ? putLine.substring(0, putLine.indexOf(" ")) : putLine) {
-                        case Protocol.SEND_MESSAGE:
-                            out.write(Protocol.SEND_MESSAGE+" " + new Date().toString()
-                                            + putLine.replaceFirst(Protocol.SEND_MESSAGE, " "));
-                            out.newLine();
-                            out.flush();
-                            break;
-                        default:
-                            out.write(putLine);
-                            out.newLine();
-                            out.flush();
-                            break;
-                    }
-
+            while (true) {
+                String putLine = console.readLine();
+                switch (putLine.contains(" ") ? putLine.substring(0, putLine.indexOf(" ")) : putLine) {
+                    case Protocol.SEND_MESSAGE:
+                        out.write(Protocol.SEND_MESSAGE + " " + new Date().toString()
+                                + putLine.replaceFirst(Protocol.SEND_MESSAGE, " "));
+                        out.newLine();
+                        out.flush();
+                        break;
+                    default:
+                        out.write(putLine);
+                        out.newLine();
+                        out.flush();
+                        break;
                 }
 
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+
+        } catch (IOException e) {
+            logger.log(Level.INFO, "Client failed to send command");
+            System.out.println("Failed to execute command!");
         }
     }
 }
+
