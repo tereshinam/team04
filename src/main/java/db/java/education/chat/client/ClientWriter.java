@@ -1,8 +1,6 @@
 package db.java.education.chat.client;
 
-import db.java.education.chat.protocol.Command;
 import db.java.education.chat.protocol.Protocol;
-import db.java.education.chat.protocol.CommandType;
 
 import java.io.*;
 import java.net.Socket;
@@ -10,10 +8,8 @@ import java.util.Date;
 
 public class ClientWriter {
     Socket client;
-    private CommandType type;
-    private String args;
 
-    public ClientWriter(Socket client) throws IOException {
+    public ClientWriter(Socket client) {
         this.client = client;
     }
 
@@ -45,7 +41,6 @@ public class ClientWriter {
 
                 }
 
-                //endregion
             } catch (IOException e) {
                 e.printStackTrace();
             }
