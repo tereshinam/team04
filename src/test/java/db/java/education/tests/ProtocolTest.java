@@ -13,9 +13,9 @@ public class ProtocolTest {
     @Test
     public void shouldSndStringParseCorrectly()
     {
-        sut = Protocol.getParseCommand("/snd vodka");
+        sut = Protocol.getParseCommand("/snd hello");
         Assert.assertEquals(CommandType.SEND_MESSAGE, sut.getType());
-        Assert.assertEquals("vodka", sut.getArgs());
+        Assert.assertEquals("hello", sut.getArgs());
     }
 
     @Test
