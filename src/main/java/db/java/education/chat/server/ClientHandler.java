@@ -56,7 +56,7 @@ public class ClientHandler implements Runnable {
 
                 sendMessageAllClient(command.getArgs());
                 ServerSceleton.journal.add(command.getArgs());
-                
+
                 ServerSceleton.journalLock.writeLock().unlock();
                 break;
             case SHOW_HISTORY:
