@@ -1,3 +1,5 @@
+package db.java.education.tests;
+
 import db.java.education.chat.protocol.Protocol;
 import org.junit.Test;
 
