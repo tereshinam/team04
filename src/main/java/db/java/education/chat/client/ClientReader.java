@@ -2,16 +2,25 @@ package db.java.education.chat.client;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ClientReader {
     Socket server;
+    Logger logger;
 
     public ClientReader(Socket server) {
         this.server = server;
     }
 
+    /**
+     * Method creates a thread that endlessly read server messages
+     */
     public void comeOn() {
-        Thread thread = new Thread(() -> {
+        final Executor pool = Executors.newSingleThreadExecutor();
+        pool.execute(() -> {
             try (final BufferedReader in =
                          new BufferedReader(
                                  new InputStreamReader(
@@ -22,11 +31,10 @@ public class ClientReader {
                     System.out.println(in.readLine());
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.log(Level.INFO, "Client's reading thread was interrupted");
+                System.out.println("Error! Cannot read messages from server! Please restart system.");
             }
 
         });
-        thread.setDaemon(true);
-        thread.start();
     }
 }
