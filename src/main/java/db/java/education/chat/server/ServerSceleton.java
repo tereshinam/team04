@@ -10,10 +10,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ServerSceleton {
-    public static ReentrantReadWriteLock clientCollectionLock = new ReentrantReadWriteLock();
-    public static ReentrantReadWriteLock journalLock = new ReentrantReadWriteLock();
-    public static List<ClientHandler> clientList = new ArrayList<>();
-    public static List<String> journal = new ArrayList<>(1000);
+    static ReentrantReadWriteLock clientCollectionLock = new ReentrantReadWriteLock();
+    static ReentrantReadWriteLock journalLock = new ReentrantReadWriteLock();
+    static List<ClientHandler> clientList = new ArrayList<>();
+    static List<String> journal = new ArrayList<>(1000);
     private static Logger logger = Logger.getLogger("Server");
     public static void main(String[] args) throws IOException {
         Socket client = null;

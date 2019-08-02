@@ -1,10 +1,10 @@
 package db.java.education.chat.protocol;
 
 public class Protocol {
-    public final static String DELIMETR= " ";
+    private final static String DELIMETR= " ";
     public final static String SEND_MESSAGE= "/snd";
-    public final static String SHOW_HISTORY= "/hist";
-    public final static String UNKNOWN_COMMAND= "unknown command";
+    private final static String SHOW_HISTORY= "/hist";
+    private final static String UNKNOWN_COMMAND= "unknown command";
 
     /**
      * Parses string into command according to first substring (command)

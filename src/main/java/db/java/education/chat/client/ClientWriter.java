@@ -8,11 +8,10 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ClientWriter {
-    Socket client;
-    Logger logger;
+class ClientWriter {
+    private Socket client;
 
-    public ClientWriter(Socket client) {
+    ClientWriter(Socket client) {
         this.client = client;
     }
 
@@ -20,8 +19,8 @@ public class ClientWriter {
      * Method creates out stream that sends strings to server
      * and console stream that reads strings from console
      */
-    public void comeOnWriting() {
-
+    void comeOnWriting() {
+        Logger logger = Logger.getLogger("Client");
         try (BufferedWriter out = new BufferedWriter
                 (new OutputStreamWriter(client.getOutputStream()));
              BufferedReader console =

@@ -6,8 +6,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ClientSender {
-    static Logger logger;
-    static int port = 8080;
+    private static Logger logger = Logger.getLogger("Client");
+    private static int port = 8080;
 
     /**
      * Creates writer in existing thread and reader that will use separated thread

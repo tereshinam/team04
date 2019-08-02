@@ -5,14 +5,14 @@ import java.util.List;
 
 import static db.java.education.chat.server.Utils.journalToString;
 
-public class JournalWriter {
+class JournalWriter {
     private String fileName;
 
-    public JournalWriter(String fileName) {
+    JournalWriter(String fileName) {
         this.fileName = fileName;
     }
 
-    public void writeJournal(List<String> journal){
+    void writeJournal(List<String> journal) {
         try (
                 BufferedWriter fileOut = new BufferedWriter(
                         new OutputStreamWriter(

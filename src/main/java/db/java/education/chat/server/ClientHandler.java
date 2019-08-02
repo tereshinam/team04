@@ -14,11 +14,14 @@ public class ClientHandler implements Runnable {
     private BufferedWriter out;
     private Logger logger = Logger.getLogger("Client thread");
 
-    public ClientHandler(Socket client) throws IOException {
+    ClientHandler(Socket client) throws IOException {
         logger.log(Level.INFO,"new client");
         this.client = client;
     }
 
+    /**
+     * Accept messages from clients and parses them
+     */
     @Override
     public void run() {
         try {
@@ -49,6 +52,10 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    /**
+     * Execute command
+     * @param command parsed from message
+     */
     private void handleCommand(Command command) {
         switch (command.getType()) {
             case SEND_MESSAGE:
@@ -68,7 +75,11 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public void sendMessageAllClient(String message) {
+    /**
+     * Broadcast to all clients available
+     * @param message String
+     */
+    private void sendMessageAllClient(String message) {
         ServerSceleton.clientCollectionLock.readLock().lock();
         for (ClientHandler client : ServerSceleton.clientList) {
             client.sendMessage(message);

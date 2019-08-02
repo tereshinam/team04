@@ -4,14 +4,14 @@ import java.io.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class JournalReader {
+class JournalReader {
     private String fileName;
 
-    public JournalReader(String fileName) {
+    JournalReader(String fileName) {
         this.fileName = fileName;
     }
 
-    public void readJournal(List<String> journal){
+    void readJournal(List<String> journal){
         try (
                 BufferedReader fileIn = new BufferedReader(
                         new InputStreamReader(

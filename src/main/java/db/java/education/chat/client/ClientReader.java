@@ -8,8 +8,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ClientReader {
-    Socket server;
-    Logger logger;
+    private Socket server;
+    private Logger logger = Logger.getLogger("Client");
 
     public ClientReader(Socket server) {
         this.server = server;

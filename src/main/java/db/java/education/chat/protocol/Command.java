@@ -6,7 +6,7 @@ public class Command implements Serializable {
     private CommandType type;
     private String args;
 
-    public Command(CommandType type, String args) {
+    Command(CommandType type, String args) {
         this.type = type;
         this.args = args;
     }
