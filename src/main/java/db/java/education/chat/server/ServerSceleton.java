@@ -5,14 +5,16 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ServerSceleton {
-    static List<ClientHandler> clientList = new ArrayList<>();
-    static List<String> journal = new ArrayList<>(1000);
+    public static ReentrantReadWriteLock clientCollectionLock = new ReentrantReadWriteLock();
+    public static ReentrantReadWriteLock journalLock = new ReentrantReadWriteLock();
+    public static List<ClientHandler> clientList = new ArrayList<>();
+    public static List<String> journal = new ArrayList<>(1000);
     private static Logger logger = Logger.getLogger("Server");
-
     public static void main(String[] args) throws IOException {
         Socket client = null;
         Runnable shotdownTask = new Runnable() {
@@ -29,16 +31,21 @@ public class ServerSceleton {
         setUpServerJournal();
         try (ServerSocket serverSocket = new ServerSocket(8080)) {
             while (true) {
-                logger.log(Level.INFO, "accepting client number " + clientList.size());
+                logger.log(Level.INFO, "accepting client");
                 client = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(client);
                 new Thread(clientHandler).start();
+                clientCollectionLock.writeLock().lock();
                 clientList.add(clientHandler);
+                clientCollectionLock.writeLock().unlock();
             }
         } catch (IOException e) {
             logger.log(Level.WARNING, "exception throed");
-            if (client != null)
+            if (client != null) {
+                clientCollectionLock.writeLock().lock();
                 clientList.remove(client);
+                clientCollectionLock.writeLock().unlock();
+            }
             e.printStackTrace();
         }
     }

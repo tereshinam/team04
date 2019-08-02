@@ -17,13 +17,13 @@ public class ClientHandler implements Runnable {
     public ClientHandler(Socket client) throws IOException {
         logger.log(Level.INFO,"new client");
         this.client = client;
-        in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-        out = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
     }
 
     @Override
     public void run() {
         try {
+            in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+            out = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
             while (true) {
                 String message = in.readLine();
                 logger.log(Level.INFO,"accept message :"+message);
@@ -32,7 +32,9 @@ public class ClientHandler implements Runnable {
             }
         } catch (IOException ex) {
             logger.log(Level.WARNING,"client out");
+            ServerSceleton.clientCollectionLock.writeLock().lock();
             ServerSceleton.clientList.remove(this);
+            ServerSceleton.clientCollectionLock.writeLock().unlock();
         } finally {
             try {
                 out.close();
@@ -50,8 +52,12 @@ public class ClientHandler implements Runnable {
     private void handleCommand(Command command) {
         switch (command.getType()) {
             case SEND_MESSAGE:
+                ServerSceleton.journalLock.writeLock().lock();
+
                 sendMessageAllClient(command.getArgs());
                 ServerSceleton.journal.add(command.getArgs());
+
+                ServerSceleton.journalLock.writeLock().unlock();
                 break;
             case SHOW_HISTORY:
                 sendMessage(Utils.journalToString(ServerSceleton.journal));
@@ -63,9 +69,11 @@ public class ClientHandler implements Runnable {
     }
 
     public void sendMessageAllClient(String message) {
+        ServerSceleton.clientCollectionLock.readLock().lock();
         for (ClientHandler client : ServerSceleton.clientList) {
             client.sendMessage(message);
         }
+        ServerSceleton.clientCollectionLock.readLock().unlock();
     }
 
     private void sendMessage(String message) {
