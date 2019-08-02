@@ -11,11 +11,11 @@ public class Protocol {
      * @param message
      * @return parsed Command
      */
-    public static Command getParseCommand(String message){
-        String[] strMas = message.split(DELIMETR,2);
+    public static Command getParseCommand(String message) {
+        String[] strMas = message.split(DELIMETR, 2);
 
         CommandType type;
-        String args ;
+        String args;
         switch (strMas[0]) {
             case SEND_MESSAGE:
                 type = CommandType.SEND_MESSAGE;
@@ -29,6 +29,6 @@ public class Protocol {
                 type = CommandType.UNKNOWN_COMMAND;
                 args = UNKNOWN_COMMAND;
         }
-        return new Command(type,args);
+        return new Command(type, args);
     }
 }
