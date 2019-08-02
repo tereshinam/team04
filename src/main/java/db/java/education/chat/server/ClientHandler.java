@@ -14,8 +14,6 @@ public class ClientHandler implements Runnable {
     private BufferedWriter out;
     private Logger logger = Logger.getLogger("Client thread");
 
-    ClientHandler(Socket client) throws IOException {
-        logger.log(Level.INFO,"new client");
     public ClientHandler(Socket client) throws IOException {
         logger.log(Level.INFO, "new client");
         this.client = client;
