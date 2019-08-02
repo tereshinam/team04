@@ -1,7 +1,6 @@
 package db.java.education.chat.server;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 import static db.java.education.chat.server.Utils.journalToString;

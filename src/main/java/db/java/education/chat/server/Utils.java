@@ -1,7 +1,6 @@
 package db.java.education.chat.server;
 
 import java.util.Collection;
-import java.util.List;
 
 public class Utils {
     public static String journalToString(Collection<String> journal) {
